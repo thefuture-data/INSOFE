@@ -1,4 +1,7 @@
 
+import datawig
+import essential_packages
+
 ###Script to include functions that 
 ##1.) Automatically impute values based on hard rules
 ##2.) Documents various methods to impute missing variables
@@ -24,25 +27,49 @@
 ##are generally nearby each other. It uses the feature similarity to predict values of new points.
 #Library we can use is impyute - How this works is it generates basic mean impute and constructs a KD-Tree, Then it uses the KD-Tree to find the 'k' nearest neighbors.
 ##After that we take the weighted average of the nearest neighbors to fill missing values.
+##Advantages are that it is more accurate than mean,median,mode (depending on the dataset)
+##Disadvantages are that it is computationally expensive and it is sensitive to outliers. (Unlike SVM**)
 
 ###Example Code for implementing k-nn imputation
-import sys
-from impyute.imputation.cs import fast_knn
-sys.setrecursionlimit(100000)  # Increase the recursion limit of the OS
+#sys.setrecursionlimit(100000)  # Increase the recursion limit of the OS
 # start the KNN training
-imputed_training = fast_knn(train.values, k=30)
+#imputed_training = fast_knn(train.values, k=30)
+
+##5.) Imputation using multi-variate imputation by chained equation (MICE)
+##This type of imputation works by filling missing values multiple times and by doing so uncertainity of the missing values  is 
+##measured better 
+
+##Example Code for MICE
+from impyute.imputation.cs import mice
+# start the MICE training
+imputed_training = mice(train.values)
+
+##6.) Imputing using deep neural networks (Datawig)
+##This method works really well with numeric and categorical variables . It is a library that learns ML models by using DNN to impute
+##missing values. It has support for both CPU and GPU for training
+##Advantages are that it is quite accurate compared to other imputation techniques,it can handle categorical data with 'Feature Encoder'
+##Disadvatages are that it is slow with large datasets, a requirement is that you need to specify the columns that contain information about the target column
+##that will be impyuted
+
+##Example Code for imputation using neural networks
+
+import datawig
+df_train, df_test = datawig.utils.random_split(train)
+
+#Initialize a SimpleImputer model
+imputer = datawig.SimpleImputer(
+    # column(s) containing information about the column we want to impute
+    input_columns=['1', '2', '3', '4', '5', '6', '7', 'target'],
+    output_column='0',  # the column we'd like to impute values for
+    output_path='imputer_model'  # stores model data and metrics
+)
+
+train=data_split[0].copy()
+##For the above data we will use various imputation methods.
+train2=train.copy()
+train3=train.copy()
+train4=train.copy()
 
 
-from impyute.imputation.cs import fast_knn
-import sys
-import pandas as pd
-from sklearn.datasets import fetch_california_housing
-from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import StratifiedKFold
-from sklearn.metrics import mean_squared_error
-from math import sqrt
-import random
-import numpy as np
-random.seed(0)
-
-#Fetching the dataset
+impute_methods=['std','robust','minmax','normal','knn','nn','mice','']
+from sklearn.preprocessing import SimpleImputer

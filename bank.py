@@ -1,16 +1,5 @@
-from sklearn.preprocessing import LabelEncoder
-import pandas as pd
-import numpy as np
-from prepro import get_percent
-from prepro import num_cat_data_stats
-from prepro import l
-from prepro import s
-from fancyimpute import KNN
-import seaborn as sns
-from prepro import missingval_report
-from sklearn.model_selection import train_test_split
-from sklearn.model_selection import cross_val_score, cross_val_predict, StratifiedKFold, GridSearchCV
-from sklearn import preprocessing, metrics, svm, ensemble
+import essential_packages
+
 
 
 data = pd.read_csv('UniversalBank.csv - UniversalBank.csv.csv')
@@ -31,9 +20,8 @@ def train_test(df,target):
 
 
 
-###Ensure data sanity by enforcing rel world rules and treat records which dont comply
+###Ensure data sanity by enforcing real world rules and treat records which dont comply.
 
-##Remiving negative experience
 
 ##Dealing with cat and num data
 

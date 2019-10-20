@@ -77,5 +77,5 @@ def one_hot(df,col=[]):
 #fare_analysis.describe().T
 #num.groupby('Pclass').agg({'Fare': np.mean})
 
-
-
+##Analyze cabin , fare , notice
+#train.dropna(subset=['Cabin'])
