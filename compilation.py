@@ -1,4 +1,98 @@
 ##Import datasets
+###EDA
+##exploring the data
+##Function to generate heatmap for missing values and correlation
+
+
+
+def corr_map(df):
+  corr=df.corr()
+  return sns.heatmap(corr)
+
+corr_map(data)
+
+
+
+
+##Packages that we use for explaining 
+import pandas as pd
+import seaborn as sns 
+import plotly
+from matplotlib import pyplot as plt
+
+
+###Step 1 - Check head() and describe()
+data = pd.read_csv("https://download.mlcc.google.com/mledu-datasets/california_housing_train.csv", sep=",")
+data.head()
+data.describe()
+
+data.fillna(-2020420)
+
+
+##Step 2 - Analyze numeric columns - scatter,boxplot,histograms
+##Visualizing target variable
+
+##function for visualizing the distribution of the target variable if it is numerical
+
+def target_viz(df,target):
+  sns.distplot(df[target])
+
+target_viz(data,'median_house_value')
+
+
+
+
+##function to return - Columns which have text and columns which have numeric data
+
+def get_num_text(df,text_col=[],num_col=[]):
+  columns=df.columns
+  for col in columns:
+    try:
+      df[col]=df[col].astype('float')
+      num_col.append(col)
+    except:
+      text_col.append(col)
+  return text_col,num_col
+
+
+
+text,num=get_num_text(data)
+
+text_col,num_col=get_num_text(data)
+
+#function to check automated text,numeric classification
+#def check_num_text(df,text_col,num_col):
+##Check text data and convert to categorical as needed
+  #text_data=df[text_col]
+  #text_data.head()
+  #ans1=inquirer.prompt('Question to select columns which are categorical')
+  #ans2=inquirer.prompt('Question to select columns which are numerical')
+
+
+
+##Step 3 - Analyze categorical columns - Histogram , value counts ,
+
+
+
+
+##Step 4 - Visualize target variable and check correlation between target variable and features
+
+
+##Step 5 - Analyze missing values , Check frequency of missing values using heatmap
+
+
+
+##Step 6 - Treat missing values by 1.)Deleting 2.) Imputing 3.)Predictive Filling
+
+
+##Step 7 Perform ANOVA - ANOVA (Analysis of Variance)
+#ANOVA is a statistical method which is used for figuring out the relation between different groups of
+#categorical data. The ANOVA test, gives us two measures as result:
+
+##Step 8 
+
+
+
 from sklearn.preprocessing import SimpleImputer
 from impyute.imputation.cs import mice
 import datawig
